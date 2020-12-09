@@ -1,0 +1,91 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="webtintucModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="nhom">
+    <Key>
+      <PropertyRef Name="UserName" />
+    </Key>
+    <Property Name="UserName" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="Manhom" Type="int" />
+    <Property Name="Hoten" Type="nvarchar" MaxLength="50" />
+    <Property Name="Pass" Type="nvarchar" MaxLength="50" />
+    <Property Name="Email" Type="nvarchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="Quyen">
+    <Key>
+      <PropertyRef Name="Manhom" />
+    </Key>
+    <Property Name="Manhom" Type="int" Nullable="false" />
+    <Property Name="Tennhom" Type="nvarchar" MaxLength="50" />
+    <Property Name="Ghichu" Type="nvarchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="sysdiagrams">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="principal_id" Type="int" Nullable="false" />
+    <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="version" Type="int" />
+    <Property Name="definition" Type="varbinary(max)" />
+  </EntityType>
+  <EntityType Name="Tb_DetailNews">
+    <Key>
+      <PropertyRef Name="New_ID" />
+    </Key>
+    <Property Name="New_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Group_ID" Type="int" />
+    <Property Name="Title_News" Type="nvarchar" MaxLength="500" />
+    <Property Name="Shortcut" Type="nvarchar" MaxLength="1000" />
+    <Property Name="Body" Type="nvarchar(max)" />
+    <Property Name="Picture" Type="nvarchar" MaxLength="200" />
+    <Property Name="Creatdate" Type="datetime" />
+    <Property Name="Tags" Type="nvarchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="Tb_GroupNews">
+    <Key>
+      <PropertyRef Name="Group_ID" />
+    </Key>
+    <Property Name="Group_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Title" Type="nvarchar" MaxLength="50" />
+    <Property Name="Note" Type="nvarchar" MaxLength="1000" />
+  </EntityType>
+  <Association Name="FK_nhom_Quyen">
+    <End Role="Quyen" Type="Self.Quyen" Multiplicity="0..1" />
+    <End Role="nhom" Type="Self.nhom" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Quyen">
+        <PropertyRef Name="Manhom" />
+      </Principal>
+      <Dependent Role="nhom">
+        <PropertyRef Name="Manhom" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Tb_DetailNews_Tb_GroupNews">
+    <End Role="Tb_GroupNews" Type="Self.Tb_GroupNews" Multiplicity="0..1" />
+    <End Role="Tb_DetailNews" Type="Self.Tb_DetailNews" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Tb_GroupNews">
+        <PropertyRef Name="Group_ID" />
+      </Principal>
+      <Dependent Role="Tb_DetailNews">
+        <PropertyRef Name="Group_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="webtintucModelStoreContainer">
+    <EntitySet Name="nhom" EntityType="Self.nhom" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Quyen" EntityType="Self.Quyen" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Tb_DetailNews" EntityType="Self.Tb_DetailNews" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Tb_GroupNews" EntityType="Self.Tb_GroupNews" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_nhom_Quyen" Association="Self.FK_nhom_Quyen">
+      <End Role="Quyen" EntitySet="Quyen" />
+      <End Role="nhom" EntitySet="nhom" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Tb_DetailNews_Tb_GroupNews" Association="Self.FK_Tb_DetailNews_Tb_GroupNews">
+      <End Role="Tb_GroupNews" EntitySet="Tb_GroupNews" />
+      <End Role="Tb_DetailNews" EntitySet="Tb_DetailNews" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
